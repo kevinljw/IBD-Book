@@ -6,6 +6,7 @@
     <link rel="icon" type="image/png" href="pics/favicon.png" />
     <script type="text/javascript" src="extras/jquery.min.1.7.js"></script>
     <script type="text/javascript" src="extras/jquery-ui-1.8.20.custom.min.js"></script>
+    <script type="text/javascript" src="extras/jquery.ui.touch-punch.min.js"></script>
     <script type="text/javascript" src="extras/modernizr.2.5.3.min.js"></script>
     <script type="text/javascript" src="lib/hash.js"></script>
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -31,7 +32,9 @@
                     <div ignore="1" class="previous-button"></div>
                 </div>
             </div>
-
+            <div class="middle">
+                <div id="show-which-page"></div>
+            </div>
             <div class="bottom">
                 <div id="slider-bar" class="turnjs-slider">
                     <div id="slider"></div>
@@ -53,6 +56,7 @@
                     return;
                 }
 
+                
                 // Create the flipbook
 
                 flipbook.turn({
@@ -83,7 +87,7 @@
 
                     // The number of pages
 
-                    pages: 130,
+                    pages: 136,
 
                     // Events
 
@@ -111,6 +115,13 @@
                             $(this).turn('center');
 
                             $('#slider').slider('value', getViewNumber($(this), page));
+                            
+                            if(page == 1){
+                                $(".middle #show-which-page").text("");
+                            }
+                            else{
+                                $(".middle #show-which-page").text(page);
+                            }
 
                             if (page == 1) {
                                 $(this).turn('peel', 'br');
@@ -333,30 +344,44 @@
                     max: numberOfViews(flipbook),
 
                     start: function(event, ui) {
-
+                        
                         if (!window._thumbPreview) {
+                            
                             _thumbPreview = $('<div />', {
                                 'class': 'thumbnail'
                             }).html('<div></div>');
                             setPreview(ui.value);
                             _thumbPreview.appendTo($(ui.handle));
-                        } else
+                        } else{
+                            
                             setPreview(ui.value);
-
+                        }
+                        
                         moveBar(false);
 
                     },
 
                     slide: function(event, ui) {
-
+                        var view = ui.value;
+                        if(view == 1){
+                            $(".middle #show-which-page").text("");
+                        }
+                        else{
+                            $(".middle #show-which-page").text((view*2-2));
+                        }
+                        
+                        
                         setPreview(ui.value);
 
                     },
 
                     stop: function() {
 
-                        if (window._thumbPreview)
+                        if (window._thumbPreview){
+                            
                             _thumbPreview.removeClass('show');
+                        }
+                            
 
                         $('.magazine').turn('page', Math.max(1, $(this).slider('value') * 2 - 2));
 

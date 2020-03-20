@@ -307,27 +307,33 @@ function moveBar(yes) {
 }
 
 function setPreview(view) {
-
+    
 	var previewWidth = 112,
 		previewHeight = 73,
 		previewSrc = 'pages/preview.jpg',
 		preview = $(_thumbPreview.children(':first')),
-		numPages = (view==1 || view==$('#slider').slider('option', 'max')) ? 1 : 2,
+		numPages = (view==0 || view==$('#slider').slider('option', 'max')) ? 1 : 2,
 		width = (numPages==1) ? previewWidth/2 : previewWidth;
-
+    
+//    console.log(view);
+    
 	_thumbPreview.
 		addClass('no-transition').
 		css({width: width + 15,
 			height: previewHeight + 15,
-			top: -previewHeight - 30,
+			top: -previewHeight - 50,
 			left: ($($('#slider').children(':first')).width() - width - 15)/2
+            
 		});
 
 	preview.css({
 		width: width,
-		height: previewHeight
+		height: previewHeight,
+        
 	});
-
+    
+    
+    
 	if (preview.css('background-image')==='' ||
 		preview.css('background-image')=='none') {
 
